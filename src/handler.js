@@ -13,10 +13,7 @@ const addBookHandler = (request, h) => {
     id, name, year, author, summary, publisher, pageCount, readPage, finished, reading, insertedAt, updatedAt
   }
 
-  const isNameEmpty = name === ''
-  const isReadPageBigger = readPage > pageCount
-
-  if (isNameEmpty) {
+  if (newBook.name === undefined) {
     const response = h.response({
       status: 'fail',
       message: 'Gagal menambahkan buku. Mohon isi nama buku'
@@ -25,7 +22,7 @@ const addBookHandler = (request, h) => {
     return response
   }
 
-  if (isReadPageBigger) {
+  if (newBook.readPage > newBook.pageCount) {
     const response = h.response({
       status: 'fail',
       message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount'
