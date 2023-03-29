@@ -1,5 +1,7 @@
+const { server } = require('@hapi/hapi')
 const { nanoid } = require('nanoid')
 const books = require('./books')
+const { init } = require('./server')
 
 const addBookHandler = (request, h) => {
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload
@@ -44,15 +46,27 @@ const addBookHandler = (request, h) => {
 }
 
 const getAllBooksHandler = (request, h) => {
-  const dataBooks = books.map(book => ({
-    id: book.id,
-    name: book.name,
-    publisher: book.publisher
-  }))
+  const { name, reading, finished } = request.query
+  let dataBooks = books
+
+  if (name !== undefined) {
+    dataBooks = books.filter(dataBook => dataBook.name.toLowerCase().includes(name.toLowerCase()))
+  }
+  if (reading !== undefined) {
+    dataBooks = books.filter(dataBook => dataBook.reading === (reading === '1'))
+  }
+  if (finished !== undefined) {
+    dataBooks = books.filter(dataBook => dataBook.finished === (finished === '1'))
+  }
+
   const response = h.response({
     status: 'success',
     data: {
-      books: dataBooks.splice(0, 2)
+      books: dataBooks.map(book => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher
+      }))
     }
   })
   response.code(200)
