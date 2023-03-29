@@ -52,7 +52,7 @@ const getAllBooksHandler = (request, h) => {
   const response = h.response({
     status: 'success',
     data: {
-      books: dataBooks
+      books: dataBooks.splice(0, 2)
     }
   })
   response.code(200)
@@ -86,13 +86,11 @@ const editBookByIdHandler = (request, h) => {
 
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload
   const updatedAt = new Date().toISOString()
-  const isNameEmpty = name === ''
-  const isReadPageBigger = readPage > pageCount
   const finished = pageCount === readPage
 
   const index = books.findIndex(book => book.id === id)
 
-  if (isNameEmpty) {
+  if (name === undefined) {
     const response = h.response({
       status: 'fail',
       message: 'Gagal memperbarui buku. Mohon isi nama buku'
@@ -101,7 +99,7 @@ const editBookByIdHandler = (request, h) => {
     return response
   }
 
-  if (isReadPageBigger) {
+  if (readPage > pageCount) {
     const response = h.response({
       status: 'fail',
       message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount'
