@@ -1,7 +1,5 @@
-const { server } = require('@hapi/hapi')
 const { nanoid } = require('nanoid')
 const books = require('./books')
-const { init } = require('./server')
 
 const addBookHandler = (request, h) => {
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload
