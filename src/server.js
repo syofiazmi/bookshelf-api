@@ -1,9 +1,11 @@
 const Hapi = require('@hapi/hapi')
 const routes = require('./routes')
 
+const PORT = process.env.PORT || 9000
+
 const init = async () => {
   const server = Hapi.server({
-    port: 9000,
+    port: PORT,
     host: 'localhost',
     routes: {
       cors: {
