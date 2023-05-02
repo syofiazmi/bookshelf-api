@@ -6,7 +6,6 @@ const PORT = 9000
 const init = async () => {
   const server = Hapi.server({
     port: PORT,
-    host: 'localhost',
     routes: {
       cors: {
         origin: ['*']
@@ -21,3 +20,5 @@ const init = async () => {
 }
 
 init()
+
+module.exports = Hapi
