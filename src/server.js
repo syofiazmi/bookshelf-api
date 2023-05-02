@@ -21,4 +21,4 @@ const init = async () => {
 
 init()
 
-module.exports = Hapi
+module.exports = init
